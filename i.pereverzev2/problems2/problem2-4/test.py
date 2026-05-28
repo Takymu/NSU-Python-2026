@@ -1,14 +1,16 @@
+import os
 import unittest
 import random
 from io import StringIO
 from unittest.mock import patch
 from problem4 import find_indices, run_search
 
-
 class TestFindIndices(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        with open("pi.txt", "r") as f:
+        base_dir = os.path.dirname(__file__)
+        file_path = os.path.join(base_dir, "pi.txt")
+        with open(file_path, "r", encoding="utf-8") as f:
             cls.pi_digits = f.read().strip()
 
     def test_random_sequences(self):
@@ -30,7 +32,6 @@ class TestFindIndices(unittest.TestCase):
     def test_empty_sequence(self):
         self.assertEqual(find_indices(self.pi_digits, ""), [])
 
-
 class TestRunSearch(unittest.TestCase):
     def run_cli(self, inputs):
         with patch("builtins.input", side_effect=inputs), patch(
@@ -50,7 +51,6 @@ class TestRunSearch(unittest.TestCase):
             "sys.stdout", new_callable=StringIO
         ):
             self.assertIsNone(run_search())
-
 
 if __name__ == "__main__":
     unittest.main()
